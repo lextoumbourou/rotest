@@ -9,8 +9,8 @@ Copy TestRunner into a ModuleScript in game.ReplicatedStorage.
 ## Running tests
 
 1. Start Server
-2. Open command-bar.
-3. Run the following command: ```require(game.ReplicatedStorage):run()```
+2. Open Command Bar
+3. Run the following command: ```require(game.ReplicatedStorage.TestRunner):run()```
 
 ## Example
 
@@ -39,7 +39,7 @@ function MathUtilTest:test_round_numbers()
 	
 	local roundedNumber = MathUtil.round(numberToRound)
 	
-	assert roundedNumber == 1
+	assert roundedNumber == 2
 end
 
 return MathUtilTest
