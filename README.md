@@ -34,12 +34,12 @@ game.ReplicatedStorage:WaitForChild('MathUtils')
 local MathUtil = require(game.ReplicatedStorage.MathUtils)
 
 local MathUtilTest = {}
-function MathUtilTest:test_round_numbers()
+function MathUtilTest:testRoundNumbers()
     local numberToRound = 1.5
 	
-	local roundedNumber = MathUtil.round(numberToRound)
+    local roundedNumber = MathUtil.round(numberToRound)
 	
-	assert roundedNumber == 2
+    assert roundedNumber == 2
 end
 
 return MathUtilTest
