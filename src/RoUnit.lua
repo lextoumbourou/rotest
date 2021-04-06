@@ -1,5 +1,30 @@
+--[[
+	RoUnit
+	
+	A tiny unit test framework for Roblox.
+]]--
+
+
+local TEST_MODULE_SUFFIX = 'Test'
+local TEST_FUNCTION_PREFIX = 'test'
+
+
+function pathIsATestModule(item)
+	local suc, res = pcall(function()
+		return item:IsA('ModuleScript') and item.Name:sub(-#TEST_MODULE_SUFFIX) == TEST_MODULE_SUFFIX
+	end)
+
+	if suc then
+		return res
+	end
+
+	return false
+end
+
 local TestResult = {}
+
 TestResult.__index = TestResult
+
 function TestResult.new()
 	local output = {}
 	setmetatable(output, TestResult)
@@ -79,28 +104,7 @@ function TextReport.report(results)
 end
 
 local TestRunner = {}
-
-local TEST_MODULE_SUFFIX = 'Test'
-local TEST_FUNCTION_PREFIX = 'test'
-
-function pathIsATestModule(item)
-	local suc, res = pcall(function()
-		return item:IsA('ModuleScript') and item.Name:sub(-#TEST_MODULE_SUFFIX) == TEST_MODULE_SUFFIX
-	end)
-
-	if suc then
-		return res
-	end
-
-	return false
-end
-
-function TestRunner:run(rootPath: string?, config)
-	local config = config or {}
-	local reporter = config['reporter'] or TextReport
-
-	local rootPath = rootPath or game
-
+function TestRunner:run(rootPath: string, reporter)
 	local testResult = TestResult.new()
 
 	local successCount = 0
@@ -140,4 +144,13 @@ function TestRunner:run(rootPath: string?, config)
 	return reporter.report(testResult)
 end
 
-return TestRunner
+local RoUnit = {}
+function RoUnit:run(rootPath: string?, config)
+	local config = config or {}
+	local reporter = config['reporter'] or TextReport
+	local rootPath = rootPath or game
+	
+	return TestRunner:run(rootPath, reporter)
+end
+
+return RoUnit

@@ -4,15 +4,15 @@ A tiny unit test framework and test runner for Roblox
 
 ## Installation
 
-Copy TestRunner into a ModuleScript in game.ReplicatedStorage.
+Copy `src/RoUnit.lua` into a ModuleScript in game.ReplicatedStorage.
 
 ## Running tests
 
 1. Start Server
 2. Open Command Bar
-3. Run the following command: ```require(game.ReplicatedStorage.TestRunner):run()```
+3. Run the following command: ```require(game.ReplicatedStorage.RoUnit):run()```
 
-## Example
+## Writing tests
 
 Given a ModuleScript that exposes a single function to round a number:
 
@@ -52,3 +52,7 @@ Since the ModuleScript ends with `Test`, it will search for any functions whose 
 ## Setup / Teardown
 
 Setup code can be performed in a constructor called `new`. Each test function is called on a unique instance of the test module.
+
+## Examples
+
+See the `examples/` directory.
