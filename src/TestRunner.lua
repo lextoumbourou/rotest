@@ -54,12 +54,12 @@ function TextReport.report(results)
 			end
 			table.insert(outputStrs, ('    [%s] %s (%.2f second(s))'):format(marker, methodName, timeTaken))
 		end
+		table.insert(outputStrs, '')
 	end
 	
 	local outputCode = 0
 	if #errors > 0 then
 		outputCode = 1
-		table.insert(outputStrs, '')
 		table.insert(outputStrs, "============== FAILURES ====================")
 		table.insert(outputStrs, '')
 		for _, err in ipairs(errors) do
@@ -67,7 +67,6 @@ function TextReport.report(results)
 		end
 	end
 
-	table.insert(outputStrs, '')
 	table.insert(
 		outputStrs,
 		('==== %d passed, %d failed in %.2f seconds ===='):format(

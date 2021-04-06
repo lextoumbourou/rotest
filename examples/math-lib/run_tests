@@ -1,3 +1,0 @@
-rm -r math-lib.rbxlx
-rojo build -o "math-lib.rbxlx"
-run-in-roblox --script src/ReplicatedStorage/RunTests.client.lua --place math-lib.rbxlx
