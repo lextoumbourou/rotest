@@ -31,30 +31,28 @@ UserDataTest.__index = UserDataTest
 function UserDataTest.new()
 	local self = {}
 	setmetatable(self, UserDataTest)
+
+	self.dsMock = DatastoreMock.new()
+
+	local Userdata = require(game.ServerScriptService.Server.Userdata)
+	self.sut = Userdata.new(self.dsMock)
+
 	return self
 end
 
 function UserDataTest:testLoadData()
-	local Userdata = require(game.ServerScriptService.Server.Userdata)
-	local dsMock = DatastoreMock.new()
-	local sut = Userdata.new(dsMock)
+	self.sut:load(1234)
 
-	sut:load(1234)
-
-	assert(sut:get(1234).name == "lex", "Data did not load successfully.")
+	assert(self.sut:get(1234).name == "lex", "Data did not load successfully.")
 end
 
 function UserDataTest:testPersistData()
-	local Userdata = require(game.ServerScriptService.Server.Userdata)
-	local sut = require(game.ServerScriptService.Server.Userdata)
-	local dsMock = DatastoreMock.new()
-	local sut = Userdata.new(dsMock)
 
-	sut:load(1234)
-	sut:persist(1234)
+	self.sut:load(1234)
+	self.sut:persist(1234)
 
 	assert(
-		dsMock.callCount.UpdateAsync == 1, "UpdateAsync was not called.")
+		self.dsMock.callCount.UpdateAsync == 1, "UpdateAsync was not called.")
 end
 
 

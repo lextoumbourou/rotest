@@ -1,6 +1,5 @@
 --[[
 	RoUnit
-	
 	A tiny unit test framework for Roblox.
 ]]--
 
@@ -125,7 +124,7 @@ function TestRunner:run(rootPath: string, reporter)
 							sutTable = sutTable.new()
 						end
 
-						return sutTable[key]()
+						return sutTable[key](sutTable)
 					end)
 
 					if not testPassed then
