@@ -55,6 +55,6 @@ Setup code can be performed in a constructor called `new`. Each test function is
 
 ## Examples
 
-* [examples/Utils](Utils) - Example of testing some simple util functions with no side effects.
-* [examples/Datastore](Datastore) - Example of a simple datastore wrapper that loads player data. Shows how to use setup and teardown.
-* [examples/Event](Event) - Example of a simple event handler. Includes a fairly sophisticated mock.
+* [Utils](./examples/Utils) - Example of testing some simple util functions with no side effects.
+* [Datastore](./examples/Datastore) - Example of a simple datastore wrapper that loads player data. Shows how to use setup and teardown.
+* [Event](./examples/Event) - Example of a simple event handler. Includes a fairly sophisticated mock.
