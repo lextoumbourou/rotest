@@ -1,0 +1,3 @@
+rm -r Event.rbxlx
+rojo build -o "Event.rbxlx"
+run-in-roblox --script src/ReplicatedStorage/RunTests.client.lua --place Event.rbxlx
