@@ -1,3 +1,3 @@
 rm -rf Datastore.rbxlx
 rojo build -o "Datastore.rbxlx"
-run-in-roblox --script src/server/RunTests.server.lua --place Datastore.rbxlx
+run-in-roblox --script src/ServerScriptService/RunTests.server.lua --place Datastore.rbxlx

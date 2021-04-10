@@ -55,6 +55,13 @@ Setup code can be performed in a constructor called `new`. Each test function is
 
 ## Examples
 
+All tests can be run in Roblox Studio using the `run_tests` command, for example:
+
+```
+cd examples/Utils
+./run_tests
+```
+
 * [Utils](./examples/Utils) - Example of testing some simple util functions with no side effects.
 * [Datastore](./examples/Datastore) - Example of a simple datastore wrapper that loads player data. Shows how to use setup and teardown.
 * [Event](./examples/Event) - Example of a simple event handler. Includes a fairly sophisticated mock.

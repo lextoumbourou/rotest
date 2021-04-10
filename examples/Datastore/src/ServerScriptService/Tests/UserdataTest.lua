@@ -1,4 +1,4 @@
-game.ServerScriptService:WaitForChild('Server'):WaitForChild('Userdata')
+game.ServerScriptService:WaitForChild('Userdata')
 
 
 local DatastoreMock = {}
@@ -34,7 +34,7 @@ function UserDataTest.new()
 
 	self.dsMock = DatastoreMock.new()
 
-	local Userdata = require(game.ServerScriptService.Server.Userdata)
+	local Userdata = require(game.ServerScriptService.Userdata)
 	self.sut = Userdata.new(self.dsMock)
 
 	return self
