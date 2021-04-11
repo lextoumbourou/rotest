@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.2]
+
+* Add teardown method with example.
+
 ## [0.2.1]
 
 * Fix bug preventing self to be passed into methods.

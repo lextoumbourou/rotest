@@ -53,6 +53,8 @@ Since the ModuleScript ends with `Test`, it will search for any functions whose 
 
 Setup code can be performed in a constructor called `new`. Each test function is called on a unique instance of the test module.
 
+Any teardown can be performed in an optional `teardown` method. See [Datastore](./examples/Datastore) example.
+
 ## Examples
 
 All tests can be run in Roblox Studio using the `run_tests` command, for example:

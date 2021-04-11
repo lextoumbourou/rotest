@@ -124,7 +124,11 @@ function TestRunner:run(rootPath: string, reporter)
 							sutTable = sutTable.new()
 						end
 
-						return sutTable[key](sutTable)
+						local output = sutTable[key](sutTable)
+
+						if sutTable.teardown then
+							sutTable:teardown()
+						end
 					end)
 
 					if not testPassed then

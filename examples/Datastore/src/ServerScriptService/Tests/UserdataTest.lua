@@ -40,6 +40,11 @@ function UserDataTest.new()
 	return self
 end
 
+function UserDataTest:teardown()
+	self.dsMock = nil
+	self.sut = nil
+end
+
 function UserDataTest:testLoadData()
 	self.sut:load(1234)
 
