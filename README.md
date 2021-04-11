@@ -1,22 +1,29 @@
-# rounit
+# Rotest
 
-A tiny unit test framework for Roblox
+A tiny unit test framework for Roblox.
+
+## Features
+
+* One-file deployment.
+* Write tests using standard Lua modules.
+* Very readable output.
 
 ## Installation
 
-Copy `src/RoUnit.lua` into a ModuleScript in game.ReplicatedStorage.
+Copy `src/Rotest.lua` into a ModuleScript in `game.ReplicatedStorage`.
 
 ## Running tests
 
-1. Start Server
-2. Open Command Bar
-3. Run the following command: ```require(game.ReplicatedStorage.RoUnit):run()```
+1. Start Server.
+2. Open Command Bar.
+3. Run the following command: ```require(game.ReplicatedStorage.Rotest):run()```
 
-## Writing tests
+## Example
 
-Given a ModuleScript that exposes a single function to round a number:
+Let's say you have a `ModuleScript` that exposes a single function to round a number:
 
-**game.ReplicatedStorage.MathUtil**
+**ReplicatedStorage** > **MathUtil**
+
 ```
 local Math = {}
 function Math.round(numberToRound)
@@ -26,36 +33,70 @@ end
 return Math
 ```
 
-You can create a test module as follows:
+We can create a test for it by creating another `ModuleScript` with  `.test` suffix. I also have created a **Tests** folder to store all my tests.
 
-**game.ReplicatedStorage.MathUtilTest**
+**ReplicatedStorage** > **Tests** > **Math.test**
+
 ```
 game.ReplicatedStorage:WaitForChild('MathUtil')
 local MathUtil = require(game.ReplicatedStorage.MathUtil)
 
 local MathUtilTest = {}
-function MathUtilTest:testRoundNumbers()
+function MathUtilTest:roundsNumbersUp()
 	local numberToRound = 1.5
 
 	local roundedNumber = MathUtil.round(numberToRound)
 
-	assert(roundedNumber == 2, "Number was not rounded correctly")
+	assert(roundedNumber == 2, "Number not rounded up")
+end
+
+function MathUtilTest:roundsNumbersDown()
+	local numberToRound = 1.1
+
+	local roundedNumber = MathUtil.round(numberToRound)
+
+	assert(roundedNumber == 1, "Number not rounded down")
 end
 
 return MathUtilTest
 ```
 
-Then run the test runner.
+Then run the test runner:
 
-Since the ModuleScript ends with `Test`, it will search for any functions whose name starts with `test` and execute them catching any errors.
+`require(game.ReplicatedStorage.Rotest):run()`
 
-## Setup / Teardown
+It should output something that looks like this:
 
-Setup code can be performed in a constructor called `new`. Each test function is called on a unique instance of the test module.
+```
+========== Rotest results =============
 
-Any teardown can be performed in an optional `teardown` method. See [Datastore](./examples/Datastore) example.
+Collected 1 test
 
-## Examples
+  Math test:
+
+    [x] rounds numbers up (0.00 second(s))
+	[x] rounds numbers down (0.00 second(s))
+
+==== 1 passed, 0 failed in 0.01 seconds ====
+```
+
+You could then use a tool like [run-in-roblox](https://github.com/rojo-rbx/run-in-roblox) to run your tests from the command-line.
+
+## Writing tests
+
+Tests are just normal modules whose name ends with `.test`.
+
+Any methods in the test will be ran. Prefix private methods with ` _ ` to prevent running.
+
+If you use `camelCase` for the test names, they will be turned into `camel case` for readability.
+
+If you have a constructor method called `new()` it will be ran before each test.
+
+If you have a teardown method called `teardown()` it will be ran after each test.
+
+See [Datastore](./examples/Datastore) example.
+
+## More Examples
 
 All tests can be run in Roblox Studio using the `run_tests` command, for example:
 

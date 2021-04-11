@@ -1,11 +1,13 @@
 --[[
-	RoUnit
+	Rotest
 	A tiny unit test framework for Roblox.
+
+	Version: 1.0.0
 ]]--
 
 
-local TEST_MODULE_SUFFIX = 'Test'
-local TEST_FUNCTION_PREFIX = 'test'
+local TEST_MODULE_SUFFIX = '.test'
+local PRIVATE_FUNCTION_PREFIX = '_'
 
 
 function pathIsATestModule(item)
@@ -54,11 +56,23 @@ function TestResult:getStats()
 
 end
 
+function formatMethodName(name)
+	local output = {}
+	for char in name:gmatch'.' do
+		if string.match(char, "%u") then
+			table.insert(output, ' ')
+		end
+
+		table.insert(output, char:lower())
+	end
+	return table.concat(output, '')
+end
+
 local TextReport = {}
 function TextReport.report(results)
 	local outputStrs = {
 		'',
-		'========== rounit test results =============',
+		'========== Rotest results =============',
 		'',
 		("Collected %d tests"):format(results.totalTests),
 		'',
@@ -66,7 +80,7 @@ function TextReport.report(results)
 
 	local errors = {}
 	for module, moduleData in pairs(results.testsRun) do
-		table.insert(outputStrs, ('  %s'):format(module.Name))
+		table.insert(outputStrs, ('  %s test:'):format(module.Name:sub(1, #module.Name - #TEST_MODULE_SUFFIX)))
 		table.insert(outputStrs, '')
 
 		for methodName, methodData in pairs(moduleData) do
@@ -76,11 +90,11 @@ function TextReport.report(results)
 				marker = '-'
 				table.insert(errors, methodData.err)
 			end
-			table.insert(outputStrs, ('    [%s] %s (%.2f second(s))'):format(marker, methodName, timeTaken))
+			table.insert(outputStrs, ('    [%s] %s (%.2f second(s))'):format(marker, formatMethodName(methodName), timeTaken))
 		end
 		table.insert(outputStrs, '')
 	end
-	
+
 	local outputCode = 0
 	if #errors > 0 then
 		outputCode = 1
@@ -98,8 +112,17 @@ function TextReport.report(results)
 	table.insert(outputStrs, '')
 
 	print(table.concat(outputStrs, "\n"))
-	
+
 	return outputCode
+end
+
+function isTestMethod(key, member)
+	return (
+		type(member) == 'function' and
+		key:sub(1, #PRIVATE_FUNCTION_PREFIX) ~= PRIVATE_FUNCTION_PREFIX and
+		key ~= 'new' and
+		key ~= 'teardown'
+	)
 end
 
 local TestRunner = {}
@@ -116,7 +139,7 @@ function TestRunner:run(rootPath: string, reporter)
 			local sutTable = require(item)
 			testResult.testsRun[item] = {}
 			for key, member in pairs(sutTable) do
-				if type(member) == 'function' and key:sub(1, #TEST_FUNCTION_PREFIX) == TEST_FUNCTION_PREFIX then
+				if isTestMethod(key, member) then
 					testResult.testsRun[item][key] = {err=nil, startTime=tick()}
 
 					local testPassed, errorMessage = pcall(function()
@@ -147,13 +170,13 @@ function TestRunner:run(rootPath: string, reporter)
 	return reporter.report(testResult)
 end
 
-local RoUnit = {}
-function RoUnit:run(rootPath: string?, config)
+local Rotest = {}
+function Rotest:run(rootPath: string?, config)
 	local config = config or {}
 	local reporter = config['reporter'] or TextReport
 	local rootPath = rootPath or game
-	
+
 	return TestRunner:run(rootPath, reporter)
 end
 
-return RoUnit
+return Rotest

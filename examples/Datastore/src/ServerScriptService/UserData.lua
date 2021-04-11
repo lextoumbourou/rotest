@@ -5,7 +5,7 @@ function UserData.new(datastore)
 	local self = {}
 	setmetatable(self, UserData)
 	
-	self.datastore = datastore or game:GetService("DataStoreService"):GetDataStore("RounitUser")
+	self.datastore = datastore or game:GetService("DataStoreService"):GetDataStore("RotestUser")
 	self.userData = {}
 	return self
 end

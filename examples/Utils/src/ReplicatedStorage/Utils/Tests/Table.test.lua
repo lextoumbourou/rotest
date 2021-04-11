@@ -2,7 +2,7 @@ game.ReplicatedStorage:WaitForChild('Utils'):WaitForChild('Table')
 
 local TableUtilTest = {}
 
-function TableUtilTest:testCopyBasicTable()
+function TableUtilTest:copiesBasicTable()
 	local tableOriginal = {name='Lex'}
 	local sut = require(game.ReplicatedStorage.Utils.Table)
 
@@ -13,7 +13,7 @@ function TableUtilTest:testCopyBasicTable()
 	assert(copiedTable.name == "John", "Updated table has not been modified")
 end
 
-function TableUtilTest:testCopyNestedTable()
+function TableUtilTest:copiesNestedTable()
 	local tableOriginal = {items={Hat=1}}
 	local sut = require(game.ReplicatedStorage.Utils.Table)
 

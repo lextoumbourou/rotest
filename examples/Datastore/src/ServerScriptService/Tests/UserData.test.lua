@@ -1,4 +1,4 @@
-game.ServerScriptService:WaitForChild('Userdata')
+game.ServerScriptService:WaitForChild('UserData')
 
 
 local DatastoreMock = {}
@@ -34,8 +34,8 @@ function UserDataTest.new()
 
 	self.dsMock = DatastoreMock.new()
 
-	local Userdata = require(game.ServerScriptService.Userdata)
-	self.sut = Userdata.new(self.dsMock)
+	local UserData = require(game.ServerScriptService.UserData)
+	self.sut = UserData.new(self.dsMock)
 
 	return self
 end
@@ -45,13 +45,13 @@ function UserDataTest:teardown()
 	self.sut = nil
 end
 
-function UserDataTest:testLoadData()
+function UserDataTest:loadsDataForUser()
 	self.sut:load(1234)
 
 	assert(self.sut:get(1234).name == "lex", "Data did not load successfully.")
 end
 
-function UserDataTest:testPersistData()
+function UserDataTest:persistsDataForUser()
 
 	self.sut:load(1234)
 	self.sut:persist(1234)

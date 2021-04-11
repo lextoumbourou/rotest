@@ -2,7 +2,7 @@
 local RunService = game:GetService("RunService")
 if RunService:IsStudio() then
 	game:WaitForChild('ReplicatedStorage')
-	game.ReplicatedStorage:WaitForChild('RoUnit')
+	game.ReplicatedStorage:WaitForChild('Rotest')
 
-	require(game.ReplicatedStorage.RoUnit):run()
+	require(game.ReplicatedStorage.Rotest):run()
 end

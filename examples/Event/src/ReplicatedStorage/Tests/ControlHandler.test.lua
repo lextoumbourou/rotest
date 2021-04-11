@@ -35,7 +35,7 @@ end
 local TestControlHandler = {}
 TestControlHandler.__index = TestControlHandler
 
-function TestControlHandler:testEventFiredWhenXIsPressed()
+function TestControlHandler:eventFiredWhenXIsPressed()
 	local deps = getMocks()
 	local sut = ControlHandler.new(deps)
 	

@@ -1,7 +1,7 @@
 game.ReplicatedStorage:WaitForChild('Utils'):WaitForChild('Math')
 
-local MathUtilTest = {}
-function MathUtilTest:testRoundNumbers()
+local MathTest = {}
+function MathTest:roundsNumbers()
 	local numberToRound = 1.5
 
 	local sut = require(game.ReplicatedStorage.Utils.Math)
@@ -10,4 +10,4 @@ function MathUtilTest:testRoundNumbers()
 	assert(roundedNumber == 2, "Number was not rounded correctly")
 end
 
-return MathUtilTest
+return MathTest
