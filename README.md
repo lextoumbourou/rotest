@@ -1,6 +1,6 @@
 # rounit
 
-A tiny unit test framework and test runner for Roblox
+A tiny unit test framework for Roblox
 
 ## Installation
 
