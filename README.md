@@ -70,14 +70,14 @@ It should output something that looks like this:
 ```
 ========== Rotest results =============
 
-Collected 1 test
+Collected 2 tests
 
   Math test:
 
     [x] rounds numbers up (0.00 second(s))
     [x] rounds numbers down (0.00 second(s))
 
-==== 1 passed, 0 failed in 0.01 seconds ====
+==== 2 passed, 0 failed in 0.01 seconds ====
 ```
 
 You could then use a tool like [run-in-roblox](https://github.com/rojo-rbx/run-in-roblox) to run your tests from the command-line.
