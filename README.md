@@ -75,7 +75,7 @@ Collected 1 test
   Math test:
 
     [x] rounds numbers up (0.00 second(s))
-	[x] rounds numbers down (0.00 second(s))
+    [x] rounds numbers down (0.00 second(s))
 
 ==== 1 passed, 0 failed in 0.01 seconds ====
 ```
@@ -84,17 +84,15 @@ You could then use a tool like [run-in-roblox](https://github.com/rojo-rbx/run-i
 
 ## Writing tests
 
-Tests are just normal modules whose name ends with `.test`.
+* Tests are just normal ModuleScripts whose name ends with `.test`.
 
-Any methods in the test will be ran. Prefix private methods with ` _ ` to prevent running.
+* Any methods in the test will be ran in the suite. Prefix private methods with ` _ ` to prevent running.
 
-If you use `camelCase` for the test names, they will be turned into `camel case` for readability.
+* If you use `camelCase` for the test names, they will be turned into `camel case` for readability in the output.
 
-If you have a constructor method called `new()` it will be ran before each test.
+* If you have a constructor method called `new()` it will be ran before each test.
 
-If you have a teardown method called `teardown()` it will be ran after each test.
-
-See [Datastore](./examples/Datastore) example.
+* If you have a teardown method called `teardown()` it will be ran after each test.
 
 ## More Examples
 
