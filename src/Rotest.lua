@@ -87,7 +87,6 @@ function TextReport.report(results, config)
 	
 		local verboseOutputStrs = {}
 		for methodName, methodData in pairs(moduleData.methods) do
-			local timeTaken = methodData.endTime - methodData.startTime
 			local marker = 'x'
 			if methodData.err then
 				hasErrors = true
@@ -98,7 +97,7 @@ function TextReport.report(results, config)
 				moduleNumSuccess = moduleNumSuccess + 1
 			end
 
-			table.insert(verboseOutputStrs, ('    [%s] %s (%.2f seconds)'):format(marker, formatMethodName(methodName), timeTaken))
+			table.insert(verboseOutputStrs, ('    [%s] %s (%.2f seconds)'):format(marker, formatMethodName(methodName), methodData.timeTaken))
 		end
 
 		local summary = ''
@@ -165,32 +164,40 @@ function TestRunner:run(rootPath: string, reporter, config)
 	for _, item in pairs(rootPath:GetDescendants()) do
 		if pathIsATestModule(item) then
 			local sutTable = require(item)
-			testResult.testsRun[item] = {startTime=tick(), methods={}}
+			testResult.testsRun[item] = {methods={}}
+			local totalTime = 0
 			for key, member in pairs(sutTable) do
 				if isTestMethod(key, member) then
-					testResult.testsRun[item]['methods'][key] = {err=nil, startTime=tick()}
+					testResult.testsRun[item]['methods'][key] = {err=nil}
 
-					local testPassed, errorMessage = pcall(function()
-						if sutTable.new then
-							sutTable = sutTable.new()
+					coroutine.wrap(function()
+						local startTime = tick()
+
+						local testPassed, errorMessage = pcall(function()
+							if sutTable.new then
+								sutTable = sutTable.new()
+							end
+
+							local output = sutTable[key](sutTable)
+
+							if sutTable.teardown then
+								sutTable:teardown()
+							end
+						end)
+
+						if not testPassed then
+							testResult.testsRun[item]['methods'][key]['err'] = errorMessage
 						end
 
-						local output = sutTable[key](sutTable)
-
-						if sutTable.teardown then
-							sutTable:teardown()
-						end
-					end)
-
-					if not testPassed then
-						testResult.testsRun[item]['methods'][key]['err'] = errorMessage
-					end
-
-					testResult.testsRun[item]['methods'][key]['endTime'] = tick()
+						local endTime = tick()
+						local timeTaken = endTime - startTime
+						testResult.testsRun[item]['methods'][key]['timeTaken'] = timeTaken
+						totalTime = totalTime + timeTaken
+					end)()
 
 				end
 			end
-			testResult.testsRun[item].timeTaken = tick() - testResult.testsRun[item].startTime
+			testResult.testsRun[item].timeTaken = totalTime
 		end
 	end
 
