@@ -79,16 +79,19 @@ function TextReport.report(results)
 	}
 
 	local errors = {}
+	local hasErrors = false
 	for module, moduleData in pairs(results.testsRun) do
-		table.insert(outputStrs, ('  %s test:'):format(module.Name:sub(1, #module.Name - #TEST_MODULE_SUFFIX)))
+		local moduleName = module.Name
+		table.insert(outputStrs, ('  %s test:'):format(moduleName:sub(1, #module.Name - #TEST_MODULE_SUFFIX)))
 		table.insert(outputStrs, '')
 
 		for methodName, methodData in pairs(moduleData) do
 			local timeTaken = methodData.endTime - methodData.startTime
 			local marker = 'x'
 			if methodData.err then
+				hasErrors = true
 				marker = '-'
-				table.insert(errors, methodData.err)
+				errors[moduleName..'.'..methodName] = methodData.err
 			end
 			table.insert(outputStrs, ('    [%s] %s (%.2f second(s))'):format(marker, formatMethodName(methodName), timeTaken))
 		end
@@ -96,13 +99,14 @@ function TextReport.report(results)
 	end
 
 	local outputCode = 0
-	if #errors > 0 then
+	if hasErrors then
 		outputCode = 1
 		table.insert(outputStrs, "============== FAILURES ====================")
 		table.insert(outputStrs, '')
-		for _, err in ipairs(errors) do
-			table.insert(outputStrs, err)
+		for methodName, err in pairs(errors) do
+			table.insert(outputStrs, methodName..': "'..err..'"')
 		end
+		table.insert(outputStrs, '')
 	end
 
 	table.insert(
