@@ -94,6 +94,14 @@ You could then use a tool like [run-in-roblox](https://github.com/rojo-rbx/run-i
 
 * If you have a teardown method called `teardown()` it will be ran after each test.
 
+## Arguments
+
+The `run(basepath, config)` method takes 2 argument:
+
+* `basepath` - is the base path that the test runner will use to search for tests.
+* `config` - a table can have the following keys:
+  * `verbose` - a boolean that specifies whether the runner should include every test in the output. Defaults to `true`
+
 ## More Examples
 
 All tests can be run in Roblox Studio using the `run_tests` command, for example:

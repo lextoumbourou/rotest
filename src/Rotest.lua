@@ -40,7 +40,7 @@ function TestResult:getStats()
 	local skipped = 0
 
 	for testModule, data in pairs(self.testsRun) do
-		for methodName, methodData in pairs(data) do
+		for methodName, methodData in pairs(data.methods) do
 			if methodData.err then
 				failure = failure + 1
 			else
@@ -69,7 +69,7 @@ function formatMethodName(name)
 end
 
 local TextReport = {}
-function TextReport.report(results)
+function TextReport.report(results, config)
 	local outputStrs = {
 		'',
 		'========== Rotest results =============',
@@ -82,19 +82,43 @@ function TextReport.report(results)
 	local hasErrors = false
 	for module, moduleData in pairs(results.testsRun) do
 		local moduleName = module.Name
-		table.insert(outputStrs, ('  %s test:'):format(moduleName:sub(1, #module.Name - #TEST_MODULE_SUFFIX)))
-		table.insert(outputStrs, '')
-
-		for methodName, methodData in pairs(moduleData) do
+		local moduleNumErrors = 0
+		local moduleNumSuccess = 0
+	
+		local verboseOutputStrs = {}
+		for methodName, methodData in pairs(moduleData.methods) do
 			local timeTaken = methodData.endTime - methodData.startTime
 			local marker = 'x'
 			if methodData.err then
 				hasErrors = true
 				marker = '-'
 				errors[moduleName..'.'..methodName] = methodData.err
+				moduleNumErrors = moduleNumErrors + 1
+			else
+				moduleNumSuccess = moduleNumSuccess + 1
 			end
-			table.insert(outputStrs, ('    [%s] %s (%.2f second(s))'):format(marker, formatMethodName(methodName), timeTaken))
+
+			table.insert(verboseOutputStrs, ('    [%s] %s (%.2f seconds)'):format(marker, formatMethodName(methodName), timeTaken))
 		end
+
+		local summary = ''
+		if not config.verbose then
+			summary = ('%i succeeded, %i failed (%.2f seconds)'):format(
+				moduleNumSuccess, moduleNumErrors, moduleData.timeTaken)
+		end
+
+		table.insert(outputStrs, ('  %s test: %s'):format(moduleName:sub(1, #module.Name - #TEST_MODULE_SUFFIX), summary))
+
+		if config.verbose then
+			table.insert(outputStrs, '')
+			for i, outputStr in pairs(verboseOutputStrs) do
+				 table.insert(outputStrs, outputStr)
+			end
+			table.insert(outputStrs, '')
+		end
+	end
+
+	if not config.verbose then
 		table.insert(outputStrs, '')
 	end
 
@@ -130,7 +154,7 @@ function isTestMethod(key, member)
 end
 
 local TestRunner = {}
-function TestRunner:run(rootPath: string, reporter)
+function TestRunner:run(rootPath: string, reporter, config)
 	local testResult = TestResult.new()
 
 	local successCount = 0
@@ -141,10 +165,10 @@ function TestRunner:run(rootPath: string, reporter)
 	for _, item in pairs(rootPath:GetDescendants()) do
 		if pathIsATestModule(item) then
 			local sutTable = require(item)
-			testResult.testsRun[item] = {}
+			testResult.testsRun[item] = {startTime=tick(), methods={}}
 			for key, member in pairs(sutTable) do
 				if isTestMethod(key, member) then
-					testResult.testsRun[item][key] = {err=nil, startTime=tick()}
+					testResult.testsRun[item]['methods'][key] = {err=nil, startTime=tick()}
 
 					local testPassed, errorMessage = pcall(function()
 						if sutTable.new then
@@ -159,28 +183,29 @@ function TestRunner:run(rootPath: string, reporter)
 					end)
 
 					if not testPassed then
-						testResult.testsRun[item][key]['err'] = errorMessage
+						testResult.testsRun[item]['methods'][key]['err'] = errorMessage
 					end
 
-					testResult.testsRun[item][key]['endTime'] = tick()
+					testResult.testsRun[item]['methods'][key]['endTime'] = tick()
 
 				end
 			end
+			testResult.testsRun[item].timeTaken = tick() - testResult.testsRun[item].startTime
 		end
 	end
 
 	testResult:getStats()
 
-	return reporter.report(testResult)
+	return reporter.report(testResult, config)
 end
 
 local Rotest = {}
 function Rotest:run(rootPath: string?, config)
-	local config = config or {}
+	local config = config or {verbose=true}
 	local reporter = config['reporter'] or TextReport
 	local rootPath = rootPath or game
 
-	return TestRunner:run(rootPath, reporter)
+	return TestRunner:run(rootPath, reporter, config)
 end
 
 return Rotest
