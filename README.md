@@ -114,3 +114,9 @@ cd examples/Utils
 * [Utils](./examples/Utils) - Example of testing some simple util functions with no side effects.
 * [Datastore](./examples/Datastore) - Example of a simple datastore wrapper that loads player data. Shows how to use setup and teardown.
 * [Event](./examples/Event) - Example of a simple event handler. Includes a fairly sophisticated mock.
+
+## Why another framework?
+
+I wrote this library because I don't always find BDD-style tests - à la [TestEz](https://github.com/Roblox/testez) and others - intutive for all problem domains, especially when testing utility code. I also would prefer to write my tests using the modular, OOP-style Lua that I write most of my production code in.
+
+I also find other projects can be lacking in examples and clear documentation. I'm hoping to do that better.
