@@ -2,21 +2,40 @@
 
 A tiny unit test framework for Roblox.
 
+<img
+    src="https://user-images.githubusercontent.com/1080552/115104581-ca23f200-9f9c-11eb-91c5-eeffa549f4fc.png"
+    alt="A screenshot of an example run within Roblox Studio."
+    width="400">
+
 ## Features
 
-* One-file deployment.
-* Write tests using standard Lua modules.
-* Very readable output.
+* Writes tests using simple [ModuleScripts](https://developer.roblox.com/en-us/api-reference/class/ModuleScript).
+* One-file runner deployment.
+* Readable and configurable output.
 
 ## Installation
 
-Copy `src/Rotest.lua` into a ModuleScript in `game.ReplicatedStorage`.
+Copy `src/Rotest.lua` into a ModuleScript in `game.ReplicatedStorage` (or anywhere you'd like to run it from).
 
 ## Running tests
 
 1. Start Server.
 2. Open Command Bar.
 3. Run the following command: ```require(game.ReplicatedStorage.Rotest):run()```
+
+Tests can be run via the command-line using [run-in-roblox](https://github.com/rojo-rbx/run-in-roblox).
+
+## Writing tests
+
+* Tests are just normal ModuleScripts whose name ends with `.test`.
+
+* Any methods in the test will be ran in the suite. Prefix private methods with ` _ ` to prevent running.
+
+* If you use `camelCase` for the test names, they will be turned into `camel case` for readability in the output.
+
+* If you have a constructor method called `new()` it will be ran before each test.
+
+* If you have a teardown method called `teardown()` it will be ran after each test.
 
 ## Example
 
@@ -80,20 +99,6 @@ Collected 2 tests
 ==== 2 passed, 0 failed in 0.01 seconds ====
 ```
 
-You could then use a tool like [run-in-roblox](https://github.com/rojo-rbx/run-in-roblox) to run your tests from the command-line.
-
-## Writing tests
-
-* Tests are just normal ModuleScripts whose name ends with `.test`.
-
-* Any methods in the test will be ran in the suite. Prefix private methods with ` _ ` to prevent running.
-
-* If you use `camelCase` for the test names, they will be turned into `camel case` for readability in the output.
-
-* If you have a constructor method called `new()` it will be ran before each test.
-
-* If you have a teardown method called `teardown()` it will be ran after each test.
-
 ## Arguments
 
 The `run(basepath, config)` method takes 2 argument:
@@ -115,8 +120,7 @@ cd examples/Utils
 * [Datastore](./examples/Datastore) - Example of a simple datastore wrapper that loads player data. Shows how to use setup and teardown.
 * [Event](./examples/Event) - Example of a simple event handler. Includes a fairly sophisticated mock.
 
-## Why another framework?
+## Why another unit test framework?
 
-I wrote this library because I don't always find BDD-style tests - à la [TestEz](https://github.com/Roblox/testez) and others - intutive for all problem domains, especially when testing utility code. I also would prefer to write my tests using the modular, OOP-style Lua that I write most of my production code in.
-
-I also find other projects can be lacking in examples and clear documentation. I'm hoping to do that better.
+* An alternative to BDD-style tests in [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580).
+* The tests are designed to be written as Lua modules with no imports unlike [Nexus-Unit-Testing](https://github.com/TheNexusAvenger/Nexus-Unit-Testing).
