@@ -1,4 +1,59 @@
---[[
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<Meta name="ExplicitAutoJoints">true</Meta>
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Model" referent="RBX0262c426d0ff44618a0521924574d8c5">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<token name="LevelOfDetail">0</token>
+			<CoordinateFrame name="ModelInPrimary">
+				<X>0</X>
+				<Y>0</Y>
+				<Z>0</Z>
+				<R00>1</R00>
+				<R01>0</R01>
+				<R02>0</R02>
+				<R10>0</R10>
+				<R11>1</R11>
+				<R12>0</R12>
+				<R20>0</R20>
+				<R21>0</R21>
+				<R22>1</R22>
+			</CoordinateFrame>
+			<CoordinateFrame name="ModelMeshCFrame">
+				<X>0</X>
+				<Y>0</Y>
+				<Z>0</Z>
+				<R00>1</R00>
+				<R01>0</R01>
+				<R02>0</R02>
+				<R10>0</R10>
+				<R11>1</R11>
+				<R12>0</R12>
+				<R20>0</R20>
+				<R21>0</R21>
+				<R22>1</R22>
+			</CoordinateFrame>
+			<SharedString name="ModelMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
+			<Vector3 name="ModelMeshSize">
+				<X>0</X>
+				<Y>0</Y>
+				<Z>0</Z>
+			</Vector3>
+			<string name="Name">Rotest</string>
+			<bool name="NeedsPivotMigration">true</bool>
+			<Ref name="PrimaryPart">null</Ref>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+			<OptionalCoordinateFrame name="WorldPivotInternal"></OptionalCoordinateFrame>
+		</Properties>
+		<Item class="ModuleScript" referent="RBX911d795f710945d8afea946cb392b5a7">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<Content name="LinkedSource"><null></null></Content>
+				<string name="Name">Rotest</string>
+				<string name="ScriptGuid">{55197cb7-524d-4322-81a2-d4685a622854}</string>
+				<ProtectedString name="Source"><![CDATA[--[[
 	Rotest
 	A tiny unit test framework for Roblox.
 
@@ -84,7 +139,7 @@ function TextReport.report(results, config)
 		local moduleName = module.Name
 		local moduleNumErrors = 0
 		local moduleNumSuccess = 0
-	
+
 		local verboseOutputStrs = {}
 		for methodName, methodData in pairs(moduleData.methods) do
 			local marker = 'x'
@@ -103,7 +158,7 @@ function TextReport.report(results, config)
 		local summary = ''
 		if not config.verbose then
 			summary = ('%i succeeded, %i failed (%.2f seconds)'):format(
-				moduleNumSuccess, moduleNumErrors, moduleData.timeTaken)
+			moduleNumSuccess, moduleNumErrors, moduleData.timeTaken)
 		end
 
 		table.insert(outputStrs, ('  %s test: %s'):format(moduleName:sub(1, #module.Name - #TEST_MODULE_SUFFIX), summary))
@@ -111,7 +166,7 @@ function TextReport.report(results, config)
 		if config.verbose then
 			table.insert(outputStrs, '')
 			for i, outputStr in pairs(verboseOutputStrs) do
-				 table.insert(outputStrs, outputStr)
+				table.insert(outputStrs, outputStr)
 			end
 			table.insert(outputStrs, '')
 		end
@@ -146,9 +201,9 @@ end
 function isTestMethod(key, member)
 	return (
 		type(member) == 'function' and
-		key:sub(1, #PRIVATE_FUNCTION_PREFIX) ~= PRIVATE_FUNCTION_PREFIX and
-		key ~= 'new' and
-		key ~= 'teardown'
+			key:sub(1, #PRIVATE_FUNCTION_PREFIX) ~= PRIVATE_FUNCTION_PREFIX and
+			key ~= 'new' and
+			key ~= 'teardown'
 	)
 end
 
@@ -215,4 +270,13 @@ function Rotest:run(rootPath: string?, config)
 	return TestRunner:run(rootPath, reporter, config)
 end
 
-return Rotest
+return Rotest]]></ProtectedString>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+	<SharedStrings>
+		<SharedString md5="yuZpQdnvvUBOTYh1jqZ2cA=="></SharedString>
+	</SharedStrings>
+</roblox>

@@ -1,6 +1,6 @@
 # Rotest
 
-A tiny unit test framework for Roblox.
+A unit test framework for Roblox.
 
 <img
     src="https://user-images.githubusercontent.com/1080552/115104581-ca23f200-9f9c-11eb-91c5-eeffa549f4fc.png"
@@ -15,7 +15,13 @@ A tiny unit test framework for Roblox.
 
 ## Installation
 
-Copy `src/Rotest.lua` into a ModuleScript in `game.ReplicatedStorage` (or anywhere you'd like to run it from).
+It's just one file, so you can copy the contents of *src/Rotest.lua* into a ModuleScript in *game.ReplicatedStorage*.
+
+---
+
+You can also install using the package under *release/rotest.rbxmx*. Inside Roblox Studio right-click on Workspace and click on *Insert from file…*. Browse to *release/rotest.rbxmx* and Open.
+
+Then move *Rotest/Rotest* to *game.ReplicatedStorage*.
 
 ## Running tests
 
