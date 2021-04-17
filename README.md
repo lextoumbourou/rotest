@@ -15,13 +15,15 @@ A unit test framework for Roblox.
 
 ## Installation
 
-It's just one file, so you can copy the contents of *src/Rotest.lua* into a ModuleScript in *game.ReplicatedStorage*.
+It's just one file, so you can copy the contents of **src/Rotest.lua** into a ModuleScript in **game.ReplicatedStorage**.
 
 ---
 
-You can also install using the package under *release/rotest.rbxmx*. Inside Roblox Studio right-click on Workspace and click on *Insert from file…*. Browse to *release/rotest.rbxmx* and Open.
+You can also install using the package under **release/rotest.rbxmx**:
 
-Then move *Rotest/Rotest* to *game.ReplicatedStorage*.
+  * Inside Roblox Studio right-click on Workspace and click on **Insert from file…**.
+  * Browse to **release/rotest.rbxmx** and Open.
+  * Then move **Rotest/Rotest** to **game.ReplicatedStorage**.
 
 ## Running tests
 
