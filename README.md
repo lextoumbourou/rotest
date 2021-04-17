@@ -5,7 +5,7 @@ A tiny unit test framework for Roblox.
 <img
     src="https://user-images.githubusercontent.com/1080552/115104581-ca23f200-9f9c-11eb-91c5-eeffa549f4fc.png"
     alt="A screenshot of an example run within Roblox Studio."
-    width="400">
+    width="600">
 
 ## Features
 
@@ -27,7 +27,7 @@ Tests can be run via the command-line using [run-in-roblox](https://github.com/r
 
 ## Writing tests
 
-* Tests are just normal ModuleScripts whose name ends with `.test`.
+* Tests are just [ModuleScripts](https://developer.roblox.com/en-us/api-reference/class/ModuleScript) whose name ends with `.test`.
 
 * Any methods in the test will be ran in the suite. Prefix private methods with ` _ ` to prevent running.
 
@@ -80,7 +80,7 @@ end
 return MathUtilTest
 ```
 
-Then run the test runner:
+We can then start a Server and call the test runner:
 
 `require(game.ReplicatedStorage.Rotest):run()`
 
@@ -107,14 +107,21 @@ The `run(basepath, config)` method takes 2 argument:
 * `config` - a table can have the following keys:
   * `verbose` - a boolean that specifies whether the runner should include every test in the output. Defaults to `true`
 
+## Run on server start
+
+You can automatically run the tests when the server starts, by creating a `ServerScript` like this:
+
+**Game** > **ServerScriptService** > **RunTests**
+```
+if game:GetService("RunService"):IsStudio() then
+        game:WaitForChild('ReplicatedStorage')
+        game.ReplicatedStorage:WaitForChild('Rotest')
+
+        require(game.ReplicatedStorage.Rotest):run()
+end
+```
+
 ## More Examples
-
-All tests can be run in Roblox Studio using the `run_tests` command, for example:
-
-```
-cd examples/Utils
-./run_tests
-```
 
 * [Utils](./examples/Utils) - Example of testing some simple util functions with no side effects.
 * [Datastore](./examples/Datastore) - Example of a simple datastore wrapper that loads player data. Shows how to use setup and teardown.
@@ -122,5 +129,5 @@ cd examples/Utils
 
 ## Why another unit test framework?
 
-* An alternative to BDD-style tests in [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580).
-* The tests are designed to be written as Lua modules with no imports unlike [Nexus-Unit-Testing](https://github.com/TheNexusAvenger/Nexus-Unit-Testing).
+* Provides an an alternative to BDD-style tests in [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580).
+* Tests are designed to be written as Lua modules with no imports unlike [Nexus-Unit-Testing](https://github.com/TheNexusAvenger/Nexus-Unit-Testing) (which is great).
