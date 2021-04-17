@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.1]
+
+* Improve docs and packaging.
+
 ## [1.0.0]
 
 * Rename to Rotest and refactor API for more readable tests.
