@@ -1,15 +1,21 @@
 # Rotest
 
-A unit test framework for Roblox.
+An easy to use test framework for Roblox.
 
+<p float="left">
+<img
+    src="https://user-images.githubusercontent.com/1080552/115138734-38d27f80-a071-11eb-9c33-acd2f44b4889.png"
+    alt="A screenshot of an example test within Roblox Studio."
+    width="500">
 <img
     src="https://user-images.githubusercontent.com/1080552/115104581-ca23f200-9f9c-11eb-91c5-eeffa549f4fc.png"
     alt="A screenshot of an example run within Roblox Studio."
-    width="600">
+    width="400">
+</p>
 
 ## Features
 
-* Writes tests using simple [ModuleScripts](https://developer.roblox.com/en-us/api-reference/class/ModuleScript).
+* Write tests using [ModuleScripts](https://developer.roblox.com/en-us/api-reference/class/ModuleScript) with no dependancies.
 * One-file runner deployment.
 * Readable and configurable output.
 
@@ -17,25 +23,25 @@ A unit test framework for Roblox.
 
 It's just one file, so you can copy the contents of **src/Rotest.lua** into a ModuleScript in **game.ReplicatedStorage**.
 
----
+Or, you can also install using the package under **release/rotest.rbxmx**:
 
-You can also install using the package under **release/rotest.rbxmx**:
-
-  * Inside Roblox Studio right-click on Workspace and click on **Insert from file…**.
-  * Browse to **release/rotest.rbxmx** and Open.
+  * Inside Roblox Studio right-click on Workspace and click on **Insert from file**.
+  * Browse to **release/rotest.rbxmx** and **Open**.
   * Then move **Rotest/Rotest** to **game.ReplicatedStorage**.
 
 ## Running tests
 
-1. Start Server.
-2. Open Command Bar.
+1. Start **Server**.
+2. Open **Command Bar**.
 3. Run the following command: ```require(game.ReplicatedStorage.Rotest):run()```
 
 Tests can be run via the command-line using [run-in-roblox](https://github.com/rojo-rbx/run-in-roblox).
 
+Each test will be executed in parallel using coroutines.
+
 ## Writing tests
 
-* Tests are just [ModuleScripts](https://developer.roblox.com/en-us/api-reference/class/ModuleScript) whose name ends with `.test`.
+* Tests are just [ModuleScripts](https://developer.roblox.com/en-us/api-reference/class/ModuleScript) named to end with `.test`.
 
 * Any methods in the test will be ran in the suite. Prefix private methods with ` _ ` to prevent running.
 
@@ -60,13 +66,12 @@ end
 return Math
 ```
 
-We can create a test for it by creating another `ModuleScript` with  `.test` suffix. I also have created a **Tests** folder to store all my tests.
+We can create a test for it by creating another `ModuleScript` called **Math.test** in a **Test** folder.
 
 **ReplicatedStorage** > **Tests** > **Math.test**
 
 ```
-game.ReplicatedStorage:WaitForChild('MathUtil')
-local MathUtil = require(game.ReplicatedStorage.MathUtil)
+local MathUtil = require(game.ReplicatedStorage:WaitForChild('MathUtil'))
 
 local MathUtilTest = {}
 function MathUtilTest:roundsNumbersUp()
@@ -77,18 +82,12 @@ function MathUtilTest:roundsNumbersUp()
 	assert(roundedNumber == 2, "Number not rounded up")
 end
 
-function MathUtilTest:roundsNumbersDown()
-	local numberToRound = 1.1
-
-	local roundedNumber = MathUtil.round(numberToRound)
-
-	assert(roundedNumber == 1, "Number not rounded down")
-end
+-- Other tests here...
 
 return MathUtilTest
 ```
 
-We can then start a Server and call the test runner:
+We can then start a Server and call the test runner using the **Command Bar**:
 
 `require(game.ReplicatedStorage.Rotest):run()`
 
@@ -137,5 +136,9 @@ end
 
 ## Why another unit test framework?
 
-* Provides an an alternative to BDD-style tests in [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580).
-* Tests are designed to be written as Lua modules with no imports unlike [Nexus-Unit-Testing](https://github.com/TheNexusAvenger/Nexus-Unit-Testing) (which is great).
+* Unlike [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580), tests are not written in BDD-style.
+* Unlike [Nexus-Unit-Testing](https://github.com/TheNexusAvenger/Nexus-Unit-Testing), tests are designed to be written as Lua modules with no imports
+
+## Who's using it?
+
+We are using it while developing [Splash Music](https://www.roblox.com/games/4936591712/Splash-Music-Skateboards).
