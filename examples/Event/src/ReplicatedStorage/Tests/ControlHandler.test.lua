@@ -1,6 +1,14 @@
 local ControlHandler = require(game.ReplicatedStorage:WaitForChild('ControlHandler'))
 
 function getMocks()
+	
+end
+
+
+local TestControlHandler = {}
+TestControlHandler.__index = TestControlHandler
+
+function TestControlHandler:_getUserInputMock()
 	-- Create user input service mocks.
 	local UserInputServiceMock = {}
 	UserInputServiceMock.InputBegan = {inputBeganCallbacks={}}
@@ -25,25 +33,41 @@ function getMocks()
 		end
 	end
 
-	local EventMock = {}
-	function EventMock:Fire()
-		self.wasFired = true
-	end
-	return {UserInputService=UserInputServiceMock, ButtonPressedEvent=EventMock}
+	return UserInputServiceMock
 end
 
-local TestControlHandler = {}
-TestControlHandler.__index = TestControlHandler
+function TestControlHandler:_getButtonPressedEvent()
+	self.buttonPressedEvent = Instance.new('BindableEvent')
+	self.buttonPressedEvent.Name = 'ButtonPressedEvent'
+
+	self.callback = self.buttonPressedEvent.Event:Connect(function()
+		self.wasFired = true
+	end)
+
+	return self.buttonPressedEvent
+end
+
+function TestControlHandler:teardown()
+	if self.callback then
+		self.callback:Disconnect()
+	end
+
+	if self.buttonPressedEvent then
+		self.buttonPressedEvent:Destroy()
+	end
+end
 
 function TestControlHandler:eventFiredWhenXIsPressed()
-	local deps = getMocks()
-	local sut = ControlHandler.new(deps)
-	
+	local userInputMock = self:_getUserInputMock()
+	local sut = ControlHandler.new({
+		UserInputService=userInputMock,
+		ButtonPressedEvent=self:_getButtonPressedEvent()
+	})
 	sut:run()
 	
-	deps.UserInputService:fireInputBegan({KeyCode=Enum.KeyCode.X})
+	userInputMock:fireInputBegan({KeyCode=Enum.KeyCode.X})
 	
-	assert(deps.ButtonPressedEvent.wasFired, 'Keypress event was not fired')
+	assert(self.wasFired, 'Keypress event was not fired')
 end
 
 return TestControlHandler
