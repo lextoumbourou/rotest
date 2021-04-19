@@ -136,7 +136,11 @@ end
 
 ## Why another unit test framework?
 
-* Unlike [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580), tests are not written in BDD-style.
+The main advantage to Rotest over other frameworks is that tests are written simply as Lua modules with no dependancies (injected or otherwise), which means there’s nothing new to learn to start writing tests.
+
+Rotest is similar in spirit to libraries like [PyTest](https://docs.pytest.org/en/6.2.x/) and [xUnit](https://xunit.net/) which utilise more language features rather than framework to write tests.
+
+* Unlike [TestEz](https://github.com/Roblox/testez) and [TestSuite](https://devforum.roblox.com/t/testsuite-description/278580) tests are not written in BDD-style.
 * Unlike [Nexus-Unit-Testing](https://github.com/TheNexusAvenger/Nexus-Unit-Testing), tests are designed to be written as Lua modules with no imports
 
 ## Who's using it?
